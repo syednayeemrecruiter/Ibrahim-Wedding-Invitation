@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wedding Celebration | Syed Ibrahim & Daughter of Mrs. & Mr. Mohammed Masiuddin Sahab</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Cinzel Decorative, Cormorant Garamond, Amiri, Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Canvas Confetti for celebratory RSVP feedback -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            royal: {
+              950: '#061a14',
+              900: '#0b2920',
+              800: '#113b2f',
+              700: '#175040',
+            },
+            gold: {
+              100: '#fef9e7',
+              200: '#f9eebe',
+              300: '#f3dd8f',
+              400: '#e5c458',
+              500: '#d4af37', // Classic metallic gold
+              600: '#b89025',
+              700: '#8f6e16',
+            },
+            ivory: '#FAF7F0',
+          },
+          fontFamily: {
+            title: ['Cinzel Decorative', 'serif'],
+            arabic: ['Amiri', 'serif'],
+            serif: ['Cormorant Garamond', 'serif'],
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Luxury Styling & Animations */
+    body {
+      background-color: #061a14;
+      color: #FAF7F0;
+      font-family: 'Cormorant Garamond', serif;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    /* Ambient background gold glow & subtle shimmer */
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #FFF7D6 0%, #D4AF37 50%, #AA7C11 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .gold-border-gradient {
+      border-image: linear-gradient(135deg, #d4af37, #fef9e7, #b89025) 1;
+    }
+
+    .ornament-line {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .ornament-line::before, .ornament-line::after {
+      content: "";
+      height: 1px;
+      width: 60px;
+      background: linear-gradient(90deg, transparent, #d4af37, transparent);
+    }
+
+    /* Subtle float animations */
+    @keyframes subtleFloat {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+    .animate-float {
+      animation: subtleFloat 5s ease-in-out infinite;
+    }
+
+    /* Canvas background layer */
+    #sparkle-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Custom Glassmorphism Card */
+    .glass-card {
+      background: rgba(11, 41, 32, 0.72);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(212, 175, 55, 0.28);
+      box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(212, 175, 55, 0.05);
+    }
+
+    .glass-card:hover {
+      border-color: rgba(212, 175, 55, 0.55);
+      box-shadow: 0 20px 45px -8px rgba(0, 0, 0, 0.65), 0 0 18px rgba(212, 175, 55, 0.2);
+    }
+  </style>
+</head>
+<body class="relative min-h-screen selection:bg-gold-500 selection:text-royal-950">
+
+  <!-- Interactive Sparkle & Starlight Particles Canvas -->
+  <canvas id="sparkle-canvas"></canvas>
+
+  <!-- Ambient Audio Player Control (Muted by default to comply with browser autoplay policies) -->
+  <div class="fixed bottom-5 right-5 z-50 flex items-center gap-2">
+    <button id="sound-toggle" class="p-3.5 rounded-full glass-card text-gold-300 hover:text-gold-200 transition-all transform hover:scale-110 shadow-lg border border-gold-400/40 flex items-center justify-center" title="Ambient Music Toggle">
+      <i id="sound-icon" data-lucide="volume-x" class="w-5 h-5"></i>
+    </button>
+  </div>
+
+  <!-- Background Music Synth via Tone.js / Web Audio -->
+  <div class="relative z-10">
+
+    <!-- Top Announcement Banner -->
+    <header class="w-full text-center py-4 bg-royal-950/80 border-b border-gold-500/20 backdrop-blur-md sticky top-0 z-40">
+      <p class="text-xs sm:text-sm tracking-[0.28em] text-gold-300 uppercase font-sans font-medium px-4">
+        Royal Wedding Invitation • The Family of Syed Mohammed
+      </p>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex flex-col items-center justify-center px-4 py-16 text-center relative overflow-hidden">
+      <!-- Islamic Arch & Motif Accent -->
+      <div class="max-w-4xl mx-auto flex flex-col items-center">
+        
+        <!-- Bismillah Calligraphy -->
+        <div class="mb-4">
+          <p class="font-arabic text-3xl sm:text-4xl md:text-5xl text-gold-400 font-normal leading-relaxed drop-shadow-[0_2px_12px_rgba(212,175,55,0.4)]">
+            بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+          </p>
+          <p class="font-serif italic text-gold-200/80 text-sm sm:text-base mt-1">
+            "In the name of Allah, the Most Gracious, the Most Merciful"
+          </p>
+        </div>
+
+        <div class="ornament-line my-4">
+          <span class="text-gold-400 text-lg">✦</span>
+          <span class="text-gold-300 text-xs tracking-widest uppercase font-sans">Destined By The Divine</span>
+          <span class="text-gold-400 text-lg">✦</span>
+        </div>
+
+        <!-- Divine Destiny Quote -->
+        <blockquote class="max-w-2xl px-6 py-4 my-2 text-gold-100/90 text-lg sm:text-2xl italic leading-relaxed font-serif">
+          “And among His signs is that He created for you mates from among yourselves, that you may dwell in tranquility with them; and He has put love and mercy between your hearts.”
+          <span class="block text-xs sm:text-sm text-gold-400 font-sans tracking-widest mt-2 uppercase not-italic">
+            — Surah Ar-Rum [30:21]
+          </span>
+        </blockquote>
+
+        <p class="text-sm sm:text-base text-gold-200/90 font-serif italic max-w-lg mb-8">
+          "Matches are written in the heavens long before our souls first breathed; today, two families unite in love, grace, and prayers."
+        </p>
+
+        <!-- Couple Names Presentation -->
+        <div class="my-6 p-8 sm:p-12 glass-card rounded-3xl w-full max-w-3xl relative overflow-hidden border border-gold-500/40 shadow-2xl">
+          <div class="absolute -top-12 -left-12 w-32 h-32 bg-gold-500/10 rounded-full blur-2xl"></div>
+          <div class="absolute -bottom-12 -right-12 w-32 h-32 bg-gold-500/10 rounded-full blur-2xl"></div>
+
+          <p class="text-xs sm:text-sm font-sans tracking-[0.25em] uppercase text-gold-300 mb-3">
+            With the graceful blessings of the Almighty Allah
+          </p>
+          
+          <p class="font-serif text-lg sm:text-xl text-gold-200/90 mb-4 italic">
+            Mr. & Mrs. Syed Mohammed cordially invite you to celebrate the wedding of their younger son
+          </p>
+
+          <h1 class="font-title text-3xl sm:text-5xl md:text-6xl gold-gradient-text tracking-wide my-2 leading-tight">
+            Syed Ibrahim
+          </h1>
+
+          <div class="flex items-center justify-center my-3 gap-4">
+            <span class="h-px w-16 bg-gradient-to-r from-transparent via-gold-400 to-transparent"></span>
+            <span class="font-title text-gold-300 text-xl sm:text-2xl font-light italic">with</span>
+            <span class="h-px w-16 bg-gradient-to-r from-transparent via-gold-400 to-transparent"></span>
+          </div>
+
+          <h2 class="font-title text-xl sm:text-3xl md:text-4xl text-ivory tracking-wider mb-2 font-semibold">
+            Daughter of Mrs. & Mr. Mohammed Masiuddin Sahab
+          </h2>
+
+          <p class="text-gold-200/80 text-sm sm:text-base font-sans tracking-wide mt-4">
+            Request the honor of your presence and heartfelt du'as as they unite in this blessed union.
+          </p>
+
+          <div class="mt-8 flex flex-wrap justify-center gap-4 text-xs font-sans tracking-widest uppercase">
+            <span class="px-4 py-2 rounded-full border border-gold-400/30 bg-royal-900/60 text-gold-200 flex items-center gap-2">
+              <i data-lucide="calendar" class="w-3.5 h-3.5 text-gold-400"></i> Nov 22 & Nov 24, 2026
+            </span>
+            <span class="px-4 py-2 rounded-full border border-gold-400/30 bg-royal-900/60 text-gold-200 flex items-center gap-2">
+              <i data-lucide="map-pin" class="w-3.5 h-3.5 text-gold-400"></i> Karimnagar & Hyderabad
+            </span>
+          </div>
+        </div>
+
+        <!-- Live Countdown -->
+        <div class="mt-8 w-full max-w-2xl">
+          <p class="text-xs uppercase tracking-[0.25em] text-gold-300 font-sans mb-3">Counting Down to the Blessed Nikah</p>
+          <div class="grid grid-cols-4 gap-2 sm:gap-4 text-center">
+            <div class="glass-card rounded-2xl p-3 sm:p-4 border border-gold-500/25">
+              <span id="days" class="block font-title text-2xl sm:text-4xl text-gold-300 font-bold">00</span>
+              <span class="text-[10px] sm:text-xs uppercase font-sans tracking-wider text-gold-100/70">Days</span>
+            </div>
+            <div class="glass-card rounded-2xl p-3 sm:p-4 border border-gold-500/25">
+              <span id="hours" class="block font-title text-2xl sm:text-4xl text-gold-300 font-bold">00</span>
+              <span class="text-[10px] sm:text-xs uppercase font-sans tracking-wider text-gold-100/70">Hours</span>
+            </div>
+            <div class="glass-card rounded-2xl p-3 sm:p-4 border border-gold-500/25">
+              <span id="minutes" class="block font-title text-2xl sm:text-4xl text-gold-300 font-bold">00</span>
+              <span class="text-[10px] sm:text-xs uppercase font-sans tracking-wider text-gold-100/70">Minutes</span>
+            </div>
+            <div class="glass-card rounded-2xl p-3 sm:p-4 border border-gold-500/25">
+              <span id="seconds" class="block font-title text-2xl sm:text-4xl text-gold-300 font-bold">00</span>
+              <span class="text-[10px] sm:text-xs uppercase font-sans tracking-wider text-gold-100/70">Seconds</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scroll down indicator -->
+        <a href="#events" class="mt-10 text-gold-300/70 hover:text-gold-200 transition-colors flex flex-col items-center gap-1 group">
+          <span class="text-xs tracking-widest uppercase font-sans">View Celebrations</span>
+          <i data-lucide="chevron-down" class="w-5 h-5 animate-bounce"></i>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- Event Celebrations Section -->
+    <section id="events" class="py-20 px-4 relative max-w-6xl mx-auto">
+      <div class="text-center mb-16">
+        <div class="ornament-line mb-3">
+          <span class="text-gold-400">✦</span>
+          <span class="text-xs uppercase tracking-[0.3em] font-sans text-gold-300">Wedding Itinerary</span>
+          <span class="text-gold-400">✦</span>
+        </div>
+        <h2 class="font-title text-3xl sm:text-5xl text-ivory">The Auspicious Occasions</h2>
+        <p class="text-gold-200/80 font-serif text-lg max-w-xl mx-auto mt-2 italic">
+          Two beautiful gatherings to bless the couple with your cherished presence and du'as.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+        
+        <!-- EVENT 1: Wedding Ceremony (Nikah) -->
+        <div class="glass-card rounded-3xl p-6 sm:p-8 flex flex-col justify-between border-t-2 border-t-gold-400 relative overflow-hidden transition-all duration-300 hover:-translate-y-1">
+          <div class="absolute top-4 right-4 bg-gold-500/10 border border-gold-400/30 text-gold-300 px-3 py-1 rounded-full text-xs font-sans uppercase tracking-widest">
+            The Nikah
+          </div>
+          
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-gold-500/10 border border-gold-400/30 flex items-center justify-center text-gold-300 mb-6">
+              <i data-lucide="heart-handshake" class="w-6 h-6"></i>
+            </div>
+
+            <h3 class="font-title text-2xl sm:text-3xl text-gold-200 mb-1">Wedding Ceremony</h3>
+            <p class="text-sm uppercase tracking-wider font-sans text-gold-400 font-medium mb-4">Nikah & Grand Feast</p>
+
+            <div class="space-y-4 my-6 text-gold-100/90 font-sans text-sm">
+              <div class="flex items-start gap-3">
+                <i data-lucide="calendar" class="w-5 h-5 text-gold-400 flex-shrink-0 mt-0.5"></i>
+                <div>
+                  <p class="font-semibold text-ivory text-base">Sunday, November 22, 2026</p>
+                  <p class="text-gold-200/90 text-sm font-medium">Ceremony: 7:00 PM • <span class="text-gold-400 font-semibold">Dinner: 9:00 PM</span></p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <i data-lucide="map-pin" class="w-5 h-5 text-gold-400 flex-shrink-0 mt-0.5"></i>
+                <div>
+                  <p class="font-semibold text-ivory text-base">SFS Garden</p>
+                  <p class="text-gold-200/80">Kisan Nagar, Karimnagar, Telangana</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <i data-lucide="sparkles" class="w-5 h-5 text-gold-400 flex-shrink-0 mt-0.5"></i>
+                <div>
+                  <p class="text-gold-200/90 italic font-serif text-base">
+                    Join us as Syed Ibrahim and his bride begin their sacred chapter under the loving prayers and blessings of the elders.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons for Event 1 -->
+          <div class="pt-6 border-t border-gold-500/20 flex flex-col sm:flex-row gap-3">
+            <a href="https://maps.app.goo.gl/c4sLKc4PyQzAsqfZ8" target="_blank" rel="noopener noreferrer" 
+               class="flex-1 bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-400 hover:to-gold-500 text-royal-950 font-sans font-semibold py-3 px-4 rounded-xl text-center flex items-center justify-center gap-2 shadow-md transition-all">
+              <i data-lucide="navigation" class="w-4 h-4"></i>
+              Get Directions
+            </a>
+            
+            <button onclick="downloadIcs('Wedding Ceremony - Syed Ibrahim Nikah', 'SFS Garden, Kisan Nagar, Karimnagar', '20261122T190000', '20261122T233000', 'Join us to celebrate the Wedding Ceremony of Syed Ibrahim & Daughter of Mrs. & Mr. Mohammed Masiuddin Sahab at SFS Garden, Karimnagar. Dinner: 9:00 PM.')"
+                    class="glass-card hover:bg-gold-500/10 text-gold-200 font-sans text-xs uppercase tracking-wider py-3 px-4 rounded-xl flex items-center justify-center gap-2 border border-gold-400/40 transition-all">
+              <i data-lucide="calendar-plus" class="w-4 h-4 text-gold-400"></i>
+              Add to Calendar
+            </button>
+          </div>
+        </div>
+
+        <!-- EVENT 2: Wedding Reception (Walima) -->
+        <div class="glass-card rounded-3xl p-6 sm:p-8 flex flex-col justify-between border-t-2 border-t-gold-400 relative overflow-hidden transition-all duration-300 hover:-translate-y-1">
+          <div class="absolute top-4 right-4 bg-gold-500/10 border border-gold-400/30 text-gold-300 px-3 py-1 rounded-full text-xs font-sans uppercase tracking-widest">
+            The Walima
+          </div>
+
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-gold-500/10 border border-gold-400/30 flex items-center justify-center text-gold-300 mb-6">
+              <i data-lucide="crown" class="w-6 h-6"></i>
+            </div>
+
+            <h3 class="font-title text-2xl sm:text-3xl text-gold-200 mb-1">Wedding Reception</h3>
+            <p class="text-sm uppercase tracking-wider font-sans text-gold-400 font-medium mb-4">Walima & Celebration Dinner</p>
+
+            <div class="space-y-4 my-6 text-gold-100/90 font-sans text-sm">
+              <div class="flex items-start gap-3">
+                <i data-lucide="calendar" class="w-5 h-5 text-gold-400 flex-shrink-0 mt-0.5"></i>
+                <div>
+                  <p class="font-semibold text-ivory text-base">Tuesday, November 24, 2026</p>
+                  <p class="text-gold-200/90 text-sm font-medium">Reception: 7:30 PM Onwards • <span class="text-gold-400 font-semibold">Dinner: 9:00 PM</span></p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <i data-lucide="map-pin" class="w-5 h-5 text-gold-400 flex-shrink-0 mt-0.5"></i>
+                <div>
+                  <p class="font-semibold text-ivory text-base">VETS Garden</p>
+                  <p class="text-gold-200/80">Near Masab Tank Road, Hyderabad, Telangana</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <i data-lucide="utensils" class="w-5 h-5 text-gold-400 flex-shrink-0 mt-0.5"></i>
+                <div>
+                  <p class="text-gold-200/90 italic font-serif text-base">
+                    A joyous evening of banquet, congratulatory smiles, and everlasting memories with friends and family.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons for Event 2 -->
+          <div class="pt-6 border-t border-gold-500/20 flex flex-col sm:flex-row gap-3">
+            <a href="https://maps.app.goo.gl/Rd8umJdrr2paKKqy8" target="_blank" rel="noopener noreferrer" 
+               class="flex-1 bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-400 hover:to-gold-500 text-royal-950 font-sans font-semibold py-3 px-4 rounded-xl text-center flex items-center justify-center gap-2 shadow-md transition-all">
+              <i data-lucide="navigation" class="w-4 h-4"></i>
+              Get Directions
+            </a>
+            
+            <button onclick="downloadIcs('Wedding Reception - Syed Ibrahim & Family', 'VETS Garden, Near Masab Tank Road, Hyderabad', '20261124T193000', '20261124T233000', 'Join us to celebrate the Wedding Reception of Syed Ibrahim at VETS Garden, Masab Tank, Hyderabad. Dinner: 9:00 PM.')"
+                    class="glass-card hover:bg-gold-500/10 text-gold-200 font-sans text-xs uppercase tracking-wider py-3 px-4 rounded-xl flex items-center justify-center gap-2 border border-gold-400/40 transition-all">
+              <i data-lucide="calendar-plus" class="w-4 h-4 text-gold-400"></i>
+              Add to Calendar
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Warm Host Note Section -->
+    <section class="py-16 px-4 bg-royal-900/40 border-y border-gold-500/20 relative">
+      <div class="max-w-3xl mx-auto text-center space-y-6">
+        <div class="w-14 h-14 mx-auto rounded-full bg-gold-500/10 border border-gold-400/40 flex items-center justify-center text-gold-400">
+          <i data-lucide="quote" class="w-6 h-6"></i>
+        </div>
+        
+        <h3 class="font-title text-2xl sm:text-4xl text-ivory">A Cordial Invitation From The Parents</h3>
+        
+        <p class="font-serif text-lg sm:text-2xl text-gold-100/90 leading-relaxed italic">
+          “Mr. & Mrs. Syed Mohammed request the honor of your gracious presence and blessings to celebrate the wedding ceremony and reception of their younger son, Syed Ibrahim. Your presence and heartfelt prayers will bestow boundless joy and barakah upon this joyous union.”
+        </p>
+
+        <div class="pt-4">
+          <p class="font-sans text-sm tracking-widest uppercase text-gold-400 font-semibold">
+            Warmly Invited By:
+          </p>
+          <p class="font-serif text-xl sm:text-2xl text-ivory mt-1">
+            Syed Family / Near & Dear
+          </p>
+          <p class="text-xs text-gold-300/80 font-sans mt-0.5 tracking-wider uppercase">
+            Hyderabad
+          </p>
+        </div>
+
+        <!-- Contact & Assistance Card -->
+        <div class="mt-8 p-6 rounded-2xl glass-card border border-gold-400/30 max-w-xl mx-auto">
+          <p class="text-xs uppercase font-sans tracking-[0.25em] text-gold-300 mb-2 font-medium">For Inquiries & Assistance</p>
+          <p class="text-sm font-serif italic text-gold-100/90 mb-4">Please feel free to connect with our family representatives for venue, directions, or any assistance:</p>
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-3 font-sans text-sm">
+            <a href="tel:+919030811194" class="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-gold-400/40 bg-royal-950/60 hover:bg-gold-500/20 text-gold-200 flex items-center justify-center gap-2 transition-all">
+              <i data-lucide="phone-call" class="w-4 h-4 text-gold-400"></i>
+              <span>+91 90308 11194</span>
+            </a>
+            <a href="tel:+919700025084" class="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-gold-400/40 bg-royal-950/60 hover:bg-gold-500/20 text-gold-200 flex items-center justify-center gap-2 transition-all">
+              <i data-lucide="phone-call" class="w-4 h-4 text-gold-400"></i>
+              <span>+91 97000 25084</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Share with relatives / WhatsApp Direct button -->
+        <div class="pt-4 flex flex-wrap justify-center gap-4">
+          <button onclick="shareOnWhatsApp()" class="bg-[#25D366] hover:bg-[#20ba59] text-white px-6 py-3 rounded-full font-sans text-sm font-semibold flex items-center gap-2 shadow-lg transition-transform hover:scale-105">
+            <i data-lucide="message-circle" class="w-5 h-5"></i>
+            Share Invitation via WhatsApp
+          </button>
+          
+          <button onclick="copyInviteLink()" id="copy-btn" class="glass-card hover:bg-gold-500/20 text-gold-200 border border-gold-400/40 px-6 py-3 rounded-full font-sans text-sm font-medium flex items-center gap-2 transition-all">
+            <i data-lucide="copy" class="w-4 h-4"></i>
+            <span id="copy-text">Copy Invite Link</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive RSVP & Blessings Guestbook -->
+    <section class="py-20 px-4 max-w-4xl mx-auto" id="rsvp">
+      <div class="text-center mb-12">
+        <div class="ornament-line mb-3">
+          <span class="text-gold-400">✦</span>
+          <span class="text-xs uppercase tracking-[0.3em] font-sans text-gold-300">Join Our Joy</span>
+          <span class="text-gold-400">✦</span>
+        </div>
+        <h2 class="font-title text-3xl sm:text-5xl text-ivory">RSVP & Send Your Du'as</h2>
+        <p class="text-gold-200/80 font-serif text-lg max-w-md mx-auto mt-2 italic">
+          Kindly confirm your presence so we can prepare a hospitable welcome for you and your family.
+        </p>
+      </div>
+
+      <div class="glass-card rounded-3xl p-6 sm:p-10 border border-gold-400/30 relative">
+        <form id="rsvp-form" onsubmit="handleRSVP(event)" class="space-y-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs uppercase tracking-widest font-sans text-gold-300 mb-2">Your Full Name *</label>
+              <input type="text" id="guest-name" required placeholder="e.g. Tariq Ahmed & Family" 
+                     class="w-full bg-royal-950/70 border border-gold-500/30 rounded-xl px-4 py-3 text-ivory placeholder-gold-300/40 focus:outline-none focus:border-gold-400 font-sans text-sm">
+            </div>
+
+            <div>
+              <label class="block text-xs uppercase tracking-widest font-sans text-gold-300 mb-2">Phone Number / WhatsApp</label>
+              <input type="tel" id="guest-phone" placeholder="+91 98765 43210" 
+                     class="w-full bg-royal-950/70 border border-gold-500/30 rounded-xl px-4 py-3 text-ivory placeholder-gold-300/40 focus:outline-none focus:border-gold-400 font-sans text-sm">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-xs uppercase tracking-widest font-sans text-gold-300 mb-2">Attending Events *</label>
+              <select id="guest-event" required class="w-full bg-royal-950 border border-gold-500/30 rounded-xl px-4 py-3 text-ivory focus:outline-none focus:border-gold-400 font-sans text-sm">
+                <option value="Both Events">Both Nikah (Karimnagar) & Reception (Hyderabad)</option>
+                <option value="Wedding Ceremony Only">Wedding Ceremony Only (Nov 22 - Karimnagar)</option>
+                <option value="Wedding Reception Only">Wedding Reception Only (Nov 24 - Hyderabad)</option>
+                <option value="Sending Warm Duas Remotely">Unable to attend in person (Sending Prayers)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs uppercase tracking-widest font-sans text-gold-300 mb-2">Number of Guests Attending</label>
+              <select id="guest-count" class="w-full bg-royal-950 border border-gold-500/30 rounded-xl px-4 py-3 text-ivory focus:outline-none focus:border-gold-400 font-sans text-sm">
+                <option value="1">1 Person</option>
+                <option value="2" selected>2 Persons</option>
+                <option value="3-4">3 to 4 Family Members</option>
+                <option value="5+">5+ Family Members</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs uppercase tracking-widest font-sans text-gold-300 mb-2">Warm Wishes & Prayer (Du'a) for the Couple</label>
+            <textarea id="guest-wishes" rows="3" placeholder="May Allah bless their union with endless tranquility, love, and barakah..." 
+                      class="w-full bg-royal-950/70 border border-gold-500/30 rounded-xl px-4 py-3 text-ivory placeholder-gold-300/40 focus:outline-none focus:border-gold-400 font-sans text-sm"></textarea>
+          </div>
+
+          <button type="submit" class="w-full bg-gradient-to-r from-gold-500 via-gold-400 to-gold-600 hover:from-gold-400 hover:to-gold-300 text-royal-950 font-sans font-bold uppercase tracking-widest py-4 px-6 rounded-xl shadow-xl transition-all transform hover:scale-[1.01] flex items-center justify-center gap-2">
+            <i data-lucide="send" class="w-4 h-4"></i>
+            Confirm RSVP & Send Wishes
+          </button>
+        </form>
+
+        <!-- Dynamic Success Banner (Revealed upon submit) -->
+        <div id="rsvp-success" class="hidden mt-6 p-6 rounded-2xl bg-royal-900/90 border border-gold-400 text-center animate-fade-in">
+          <div class="w-12 h-12 bg-gold-500/20 text-gold-400 rounded-full flex items-center justify-center mx-auto mb-3">
+            <i data-lucide="check-circle" class="w-6 h-6"></i>
+          </div>
+          <h4 class="font-title text-2xl text-gold-300">JazakAllah Khair!</h4>
+          <p id="rsvp-summary" class="text-sm font-sans text-gold-100/90 mt-2"></p>
+          <p class="text-xs font-serif italic text-gold-300/70 mt-1">Your blessings and confirmation have been received with love.</p>
+        </div>
+      </div>
+
+      <!-- Guest Wall / Recent Wishes Preview -->
+      <div class="mt-12">
+        <h4 class="font-title text-xl text-center text-gold-300 mb-6 flex items-center justify-center gap-2">
+          <span>Recent Prayers & Warm Wishes</span>
+        </h4>
+        <div id="wishes-wall" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Updated family blessings -->
+          <div class="glass-card p-5 rounded-2xl border border-gold-500/20 text-sm">
+            <p class="font-serif italic text-gold-100/90">"Barakallahu laka wa baraka 'alaika wa jama'a bainakuma fi khair. Heartiest congratulations to Syed Ibrahim and the noble families on this joyous union!"</p>
+            <div class="mt-3 flex items-center justify-between text-xs text-gold-400 font-sans">
+              <span class="font-semibold">— Masiuddin Family & Well Wishers</span>
+              <span>Karimnagar</span>
+            </div>
+          </div>
+
+          <div class="glass-card p-5 rounded-2xl border border-gold-500/20 text-sm">
+            <p class="font-serif italic text-gold-100/90">"Hearty congratulations and abundant du'as! May Allah bless Syed Ibrahim with endless happiness, prosperity, and companionship. Looking forward to celebrating with everyone!"</p>
+            <div class="mt-3 flex items-center justify-between text-xs text-gold-400 font-sans">
+              <span class="font-semibold">— Syed Hyderabad & Surat Family and Best Wishers</span>
+              <span>Hyderabad</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-4 text-center border-t border-gold-500/20 bg-royal-950/90">
+      <div class="max-w-xl mx-auto space-y-4">
+        <div class="font-arabic text-2xl text-gold-400">بَارَكَ اللَّهُ لَكُمَا</div>
+        <p class="font-title text-lg gold-gradient-text tracking-widest">
+          Syed Ibrahim & His Beloved
+        </p>
+        <p class="text-xs text-gold-300/60 font-sans tracking-widest uppercase">
+          November 22 (Karimnagar) • November 24 (Hyderabad)
+        </p>
+        <p class="text-[11px] text-gold-100/40 font-sans pt-4">
+          Created with love & honor to celebrate the union of two families.
+        </p>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Scripts: Particles, Countdown, Sound, ICS Generation, and Interactivity -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // 1. Interactive Sparkle Particles Canvas
+    const canvas = document.getElementById('sparkle-canvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    const particles = [];
+    const particleCount = 45;
+
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.size = Math.random() * 2.2 + 0.5;
+        this.baseAlpha = Math.random() * 0.6 + 0.2;
+        this.alpha = this.baseAlpha;
+        this.speedY = -(Math.random() * 0.4 + 0.1);
+        this.speedX = (Math.random() - 0.5) * 0.3;
+        this.pulsing = Math.random() * Math.PI;
+      }
+      update() {
+        this.y += this.speedY;
+        this.x += this.speedX;
+        this.pulsing += 0.03;
+        this.alpha = this.baseAlpha + Math.sin(this.pulsing) * 0.2;
+
+        if (this.y < -10 || this.x < -10 || this.x > width + 10) {
+          this.reset();
+          this.y = height + 5;
+        }
+      }
+      draw() {
+        ctx.save();
+        ctx.fillStyle = `rgba(212, 175, 55, ${Math.max(0, this.alpha)})`;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = '#ffe27a';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle());
+    }
+
+    function animateSparkles() {
+      ctx.clearRect(0, 0, width, height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animateSparkles);
+    }
+    animateSparkles();
+
+    // 2. Accurate Wedding Countdown Timer
+    // Target: Sunday, November 22, 2026, 11:00 AM IST
+    const targetDate = new Date('2026-11-22T11:00:00+05:30').getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const difference = targetDate - now;
+
+      if (difference <= 0) {
+        document.getElementById('days').innerText = "00";
+        document.getElementById('hours').innerText = "00";
+        document.getElementById('minutes').innerText = "00";
+        document.getElementById('seconds').innerText = "00";
+        return;
+      }
+
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+      document.getElementById('days').innerText = String(days).padStart(2, '0');
+      document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+      document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+      document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // 3. Ambient Audio Synth using Web Audio API (No broken external audio links)
+    let audioCtx = null;
+    let isPlaying = false;
+    let intervalId = null;
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    }
+
+    // Play gentle sitar/harp-like pentatonic tones
+    const scale = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25]; // C Major pentatonic
+    function playChimeNote(freq, time) {
+      if (!audioCtx) return;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, time);
+
+      gain.gain.setValueAtTime(0.0001, time);
+      gain.gain.exponentialRampToValueAtTime(0.08, time + 0.1);
+      gain.gain.exponentialRampToValueAtTime(0.0001, time + 2.5);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start(time);
+      osc.stop(time + 2.6);
+    }
+
+    function toggleAudio() {
+      initAudio();
+      const icon = document.getElementById('sound-icon');
+
+      if (!isPlaying) {
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+        isPlaying = true;
+        icon.setAttribute('data-lucide', 'volume-2');
+        lucide.createIcons();
+
+        // Play initial melodic motif
+        let step = 0;
+        intervalId = setInterval(() => {
+          if (!isPlaying) return;
+          const noteIndex = Math.floor(Math.random() * scale.length);
+          playChimeNote(scale[noteIndex], audioCtx.currentTime);
+          step++;
+        }, 1600);
+      } else {
+        isPlaying = false;
+        clearInterval(intervalId);
+        icon.setAttribute('data-lucide', 'volume-x');
+        lucide.createIcons();
+      }
+    }
+    document.getElementById('sound-toggle').addEventListener('click', toggleAudio);
+
+    // 4. Calendar (.ics) Generator & Download
+    function downloadIcs(title, location, startDate, endDate, description) {
+      const icsContent = [
+        "BEGIN:VCALENDAR",
+        "VERSION:2.0",
+        "PRODID:-//Wedding Celebration//EN",
+        "CALSCALE:GREGORIAN",
+        "BEGIN:VEVENT",
+        `SUMMARY:${title}`,
+        `DESCRIPTION:${description}`,
+        `LOCATION:${location}`,
+        `DTSTART:${startDate}`,
+        `DTEND:${endDate}`,
+        "STATUS:CONFIRMED",
+        "SEQUENCE:0",
+        "BEGIN:VALARM",
+        "TRIGGER:-PT24H",
+        "ACTION:DISPLAY",
+        `DESCRIPTION:Reminder: ${title}`,
+        "END:VALARM",
+        "END:VEVENT",
+        "END:VCALENDAR"
+      ].join("\r\n");
+
+      const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.setAttribute('download', `${title.replace(/\s+/g, '_')}.ics`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // 5. WhatsApp Sharing Helper
+    function shareOnWhatsApp() {
+      const message = `✨ *Royal Wedding Invitation* ✨%0A%0AMr. %26 Mrs. Syed Mohammed cordially invite you and your family to celebrate the wedding ceremony and reception of their younger son *Syed Ibrahim* with the *Daughter of Mrs. %26 Mr. Mohammed Masiuddin Sahab*.%0A%0A🕌 *Wedding Ceremony (Nikah):*%0ASunday, November 22, 2026%0A📍 SFS Garden, Kisan Nagar, Karimnagar%0A🍽️ *Dinner: 9:00 PM*%0AGoogle Map: https://maps.app.goo.gl/c4sLKc4PyQzAsqfZ8%0A%0A👑 *Wedding Reception (Walima):*%0ATuesday, November 24, 2026%0A📍 VETS Garden, Near Masab Tank Road, Hyderabad%0A🍽️ *Dinner: 9:00 PM*%0AGoogle Map: https://maps.app.goo.gl/Rd8umJdrr2paKKqy8%0A%0A📞 *For Any Assistance:*%0A9030811194 | 9700025084%0A%0AYour presence and prayers would make our celebration truly complete.%0APlease view the royal invitation & confirm your RSVP here:%0A${encodeURIComponent(window.location.href)}`;
+      window.open(`https://api.whatsapp.com/send?text=${message}`, '_blank');
+    }
+
+    // 6. Copy Link to Clipboard
+    function copyInviteLink() {
+      const copyText = document.getElementById('copy-text');
+      const tempInput = document.createElement('input');
+      tempInput.value = window.location.href;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+
+      copyText.innerText = "Link Copied! ✓";
+      setTimeout(() => {
+        copyText.innerText = "Copy Invite Link";
+      }, 2500);
+    }
+
+    // 7. Interactive RSVP Form Submission & Celebration Confetti
+    function handleRSVP(event) {
+      event.preventDefault();
+
+      const name = document.getElementById('guest-name').value;
+      const eventChoice = document.getElementById('guest-event').value;
+      const count = document.getElementById('guest-count').value;
+      const wishes = document.getElementById('guest-wishes').value;
+
+      // Confetti burst
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 120,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#d4af37', '#fef9e7', '#175040', '#ffffff']
+        });
+      }
+
+      // Display response summary
+      const form = document.getElementById('rsvp-form');
+      const successBanner = document.getElementById('rsvp-success');
+      const summaryText = document.getElementById('rsvp-summary');
+
+      summaryText.innerText = `Thank you, ${name}! We have marked you down for ${eventChoice} (${count} attendees).`;
+      successBanner.classList.remove('hidden');
+
+      // Add to Guestbook Wall if wishes are included
+      if (wishes.trim()) {
+        const wall = document.getElementById('wishes-wall');
+        const newCard = document.createElement('div');
+        newCard.className = "glass-card p-5 rounded-2xl border border-gold-400/40 text-sm animate-fade-in";
+        newCard.innerHTML = `
+          <p class="font-serif italic text-gold-100/90">"${wishes}"</p>
+          <div class="mt-3 flex items-center justify-between text-xs text-gold-400 font-sans">
+            <span class="font-semibold">— ${name}</span>
+            <span>Just now</span>
+          </div>
+        `;
+        wall.prepend(newCard);
+      }
+
+      // Smooth scroll to confirmation
+      successBanner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  </script>
+</body>
+</html>
